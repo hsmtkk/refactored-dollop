@@ -10,13 +10,18 @@ data "aws_iam_policy_document" "code_build" {
 }
 
 resource "aws_iam_role" "code_build" {
-  name               = var.project
+  name               = "${var.project}-code_build"
   assume_role_policy = data.aws_iam_policy_document.code_build.json
 }
 
-resource "aws_iam_role_policy_attachment" "name" {
+resource "aws_iam_role_policy_attachment" "cloud_watch_logs" {
   role       = aws_iam_role.code_build.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_full_access" {
+  role       = aws_iam_role.code_build.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
 resource "aws_codebuild_project" "code_build" {
