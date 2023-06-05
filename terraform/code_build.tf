@@ -14,6 +14,11 @@ resource "aws_iam_role" "code_build" {
   assume_role_policy = data.aws_iam_policy_document.code_build.json
 }
 
+resource "aws_iam_role_policy_attachment" "name" {
+  role       = aws_iam_role.code_build.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
 resource "aws_codebuild_project" "code_build" {
   name         = var.project
   service_role = aws_iam_role.code_build.arn
