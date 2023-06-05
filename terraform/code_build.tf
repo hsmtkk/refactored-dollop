@@ -30,3 +30,7 @@ resource "aws_codebuild_project" "code_build" {
     location = "https://github.com/hsmtkk/refactored-dollop"
   }
 }
+
+resource "aws_codebuild_webhook" "code_build" {
+  project_name = aws_codebuild_project.code_build.name
+}
