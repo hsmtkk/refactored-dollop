@@ -3,9 +3,9 @@ version: 0.2
 phases:
   build:
     commands:
-      - docker build -f go/Dockerfile -t web go:${CODEBUILD_RESOLVED_SOURCE_VERSION}
+      - docker build -f go/Dockerfile -t web:latest go
   post_build:
     commands:
       - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 384447982274.dkr.ecr.ap-northeast-1.amazonaws.com
-      - docker tag web:${CODEBUILD_RESOLVED_SOURCE_VERSION} 384447982274.dkr.ecr.ap-northeast-1.amazonaws.com/refactored-dollop:${CODEBUILD_RESOLVED_SOURCE_VERSION}
+      - docker tag web:latest 384447982274.dkr.ecr.ap-northeast-1.amazonaws.com/refactored-dollop:${CODEBUILD_RESOLVED_SOURCE_VERSION}
       - docker push 384447982274.dkr.ecr.ap-northeast-1.amazonaws.com/refactored-dollop:${CODEBUILD_RESOLVED_SOURCE_VERSION}
